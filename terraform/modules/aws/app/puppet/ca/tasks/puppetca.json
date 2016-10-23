@@ -1,0 +1,26 @@
+[
+  {
+    "name": "puppetca",
+    "image": "${docker_image}",
+    "cpu": ${docker_cpu},
+    "memory": ${docker_memory},
+    "environment": [
+      {
+        "name": "DNS_ALT_NAMES",
+        "value": "${dns_alt_names}"
+      },
+      {
+        "name": "S3_BUCKET",
+        "value": "${bucket}"
+      }
+    ],
+    "portMappings": [
+      {
+        "hostPort": 8140,
+        "containerPort": 8140,
+        "protocol": "tcp"
+      }
+    ],
+    "essential": true
+  }
+]

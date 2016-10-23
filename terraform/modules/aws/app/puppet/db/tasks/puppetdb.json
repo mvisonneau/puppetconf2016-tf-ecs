@@ -1,0 +1,47 @@
+[
+  {
+    "name": "puppetdb",
+    "image": "${docker_image}",
+    "cpu": ${docker_cpu},
+    "memory": ${docker_memory},
+    "environment": [
+      {
+        "name": "DNS_ALT_NAMES",
+        "value": "${dns_alt_names}"
+      },
+      {
+        "name": "CA_SERVER",
+        "value": "${ca_server}"
+      },
+      {
+        "name": "POSTGRESQL_HOST",
+        "value": "${postgresql_host}"
+      },
+      {
+        "name": "POSTGRESQL_DB",
+        "value": "${postgresql_db}"
+      },
+      {
+        "name": "POSTGRESQL_USER",
+        "value": "${postgresql_user}"
+      },
+      {
+        "name": "POSTGRESQL_PASSWORD",
+        "value": "${postgresql_password}"
+      }
+    ],
+    "portMappings": [
+      {
+        "hostPort": 8080,
+        "containerPort": 8080,
+        "protocol": "tcp"
+      },
+      {
+        "hostPort": 8081,
+        "containerPort": 8081,
+        "protocol": "tcp"
+      }
+    ],
+    "essential": true
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "name": "puppetserver_data",
+    "image": "${docker_image_data}",
+    "memory": 64,
+    "environment": [
+      {
+        "name": "URL",
+        "value": "${gitlab_url}"
+      },
+      {
+        "name": "PROJECT",
+        "value": "${gitlab_project_id}"
+      },
+      {
+        "name": "TOKEN",
+        "value": "${gitlab_token}"
+      }
+    ],
+    "essential": true
+  },
+  {
+    "name": "puppetserver_bin",
+    "image": "${docker_image_bin}",
+    "cpu": ${docker_cpu},
+    "memory": ${docker_memory},
+    "environment": [
+      {
+        "name": "DNS_ALT_NAMES",
+        "value": "${dns_alt_names}"
+      },
+      {
+        "name": "CA",
+        "value": "false"
+      },
+      {
+        "name": "CA_SERVER",
+        "value": "${ca_server}"
+      },
+      {
+        "name": "DB_SERVER",
+        "value": "${db_server}"
+      }
+    ],
+    "portMappings": [
+      {
+        "hostPort": 8140,
+        "containerPort": 8140,
+        "protocol": "tcp"
+      }
+    ],
+    "volumesFrom": [
+      {
+        "sourceContainer": "puppetserver_data"
+      }
+    ],
+    "essential": true
+  }
+]

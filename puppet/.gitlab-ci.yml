@@ -1,0 +1,54 @@
+stages:
+  - build
+  - tests
+  - package
+
+variables:
+  # REGISTRY: <url_of_your_registry>
+  CONTAINER_TEST_IMAGE: ${REGISTRY}/mvisonneau/puppet-builder:$CI_BUILD_REF_NAME
+
+# before_script:
+#   - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${REGISTRY}
+
+##
+## BUILD
+##
+
+build:
+  stage: build
+  script:
+    - echo ${CI_BUILD_REF} > version
+    - docker build --build-arg CI_BUILD_REF_NAME=${CI_BUILD_REF_NAME} -t $CONTAINER_TEST_IMAGE .
+    - docker run --rm $CONTAINER_TEST_IMAGE ruby -v
+    - docker run --rm $CONTAINER_TEST_IMAGE which ruby
+
+##
+## TESTS
+##
+
+puppet_lint:
+  stage: tests
+  script:
+    - docker run --rm -w /etc/puppetlabs/code/environments/${CI_BUILD_REF_NAME}/site/profiles $CONTAINER_TEST_IMAGE bundle exec rake lint
+
+yaml_lint:
+  stage: tests
+  script:
+    - docker run --rm -w /etc/puppetlabs/code/environments/${CI_BUILD_REF_NAME}/site/profiles $CONTAINER_TEST_IMAGE bundle exec rake yamllint
+
+rspec:
+  stage: tests
+  script:
+    - docker run --rm -w /etc/puppetlabs/code/environments/${CI_BUILD_REF_NAME}/site/profiles $CONTAINER_TEST_IMAGE bundle exec rake rspec
+
+##
+## PACKAGE
+##
+
+make_deb:
+  stage: package
+  script:
+    - docker run --rm -v ${PWD}:/artifacts -w /artifacts $CONTAINER_TEST_IMAGE fpm -s dir -t deb -a all -n puppet-codebase-${CI_BUILD_REF_NAME} -v 0.${CI_BUILD_REF} --deb-no-default-config-files /etc/puppetlabs/code/environments/${CI_BUILD_REF_NAME}
+  artifacts:
+    paths:
+      - puppet-codebase-*.deb

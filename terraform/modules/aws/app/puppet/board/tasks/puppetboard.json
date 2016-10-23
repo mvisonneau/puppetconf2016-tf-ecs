@@ -1,0 +1,26 @@
+[
+  {
+    "name": "puppetboard",
+    "image": "${docker_image}",
+    "cpu": ${docker_cpu},
+    "memory": ${docker_memory},
+    "environment": [
+      {
+        "name": "PUPPETBOARD_SETTINGS",
+        "value": "/app/settings.py"
+      },
+      {
+        "name": "PUPPETBOARD_PUPPETDB_HOST",
+        "value": "${puppetdb_host}"
+      }
+    ],
+    "portMappings": [
+      {
+        "hostPort": 80,
+        "containerPort": 80,
+        "protocol": "tcp"
+      }
+    ],
+    "essential": true
+  }
+]

@@ -1,0 +1,7 @@
+---
+profiles::resources::files:
+  '/tmp/foo':
+    content: |
+      BAR
+      YAY
+      \o/

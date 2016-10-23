@@ -1,0 +1,33 @@
+require 'puppet-lint/tasks/puppet-lint'
+require 'puppetlabs_spec_helper/rake_tasks'
+require 'rspec-puppet/rake_task'
+require 'yamllint/rake_task'
+
+Rake::Task[:spec_clean].clear
+Rake::Task[:lint].clear
+
+PuppetLint::RakeTask.new :lint do |config|
+  config.ignore_paths = [
+    'spec/**/*.pp',
+    'pkg/**/*.pp',
+    'vendor/**/*.pp'
+  ]
+
+  config.disable_checks = [
+    '80chars',
+    'spaceship_operator_without_tag'
+  ]
+
+  config.fail_on_warnings = true
+end
+
+PuppetSyntax.exclude_paths = [
+  'spec/fixtures/**/*.pp',
+  'vendor/**/*'
+]
+
+YamlLint::RakeTask.new :yamllint do |config|
+  config.paths = %w(
+    ../../hieradata/**/*.yaml
+  )
+end

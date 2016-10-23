@@ -1,0 +1,5 @@
+forge "https://forge.puppet.com"
+
+# Modules from the Puppet Forge
+mod "puppetlabs/ruby",                      "0.5.0"
+mod "puppetlabs/stdlib",                    "4.12.0"

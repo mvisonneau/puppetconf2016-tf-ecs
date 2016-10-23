@@ -1,0 +1,27 @@
+[
+  {
+    "name": "sweety",
+    "image": "${docker_image}",
+    "cpu": ${docker_cpu},
+    "memory": ${docker_memory},
+    "environment": [
+      {
+        "name": "PUPPET_CA",
+        "value": "${puppet_ca}"
+      },
+      {
+        "name": "PUPPET_SERVER",
+        "value": "${puppet_server}"
+      },
+      {
+        "name": "PUPPET_ROLE",
+        "value": "sweety"
+      },
+      {
+        "name": "RUN_FREQUENCY",
+        "value": "${run_frequency}"
+      }
+    ],
+    "essential": true
+  }
+]
