@@ -1,6 +1,8 @@
 # PuppetConf 2016 - Scaling Puppet on AWS using Terraform and ECS
 
-Here is the source code I used in order to illustrate my talk at PuppetConf 2016
+Here is the source code I used in order to illustrate my talk at **PuppetConf 2016**.
+
+Recording of the talk can be found here : https://www.youtube.com/watch?v=aSwsbWCPFUs
 
 ## Docker images
 
